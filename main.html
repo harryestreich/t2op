@@ -1,0 +1,184 @@
+<html>
+  <head>
+  	<link rel="shortcut icon" href="#">
+    <style>
+    .node circle {
+      stroke: #3a403d;
+      stroke-width: .5px;
+    }
+	.button {
+	  background-color: #FFD700; 
+	  border: none;
+	  color: white;
+	  text-align: center;
+	  text-decoration: none;
+	  display: block;
+	  font-size: 16px;
+	  margin: 4px 2px;
+	  cursor: pointer;
+	  width: 80%;
+	  height:100%;
+      position: relative;
+      left: 7%;
+	}
+	.grid-container {
+	  display: grid;
+	  grid-template-columns: 5% 35% 60%;
+	  grid-gap: 10px;
+	  background-color: #2196F3;
+	}
+
+	.grid-container > div {
+	  background-color: rgba(255, 255, 255, 0.8);
+	  text-align: center;
+	  font-size: 30px;
+	}
+	.grid-item-box{
+	  display: grid;
+	  grid-template-columns: auto;
+	  grid-template-rows: 20% auto auto auto 20%;
+	  background-color: #2196F3;		
+	}
+
+	.button2 {background-color: #C0C0C0;} 
+	.button3 {background-color: #CD853F;} 
+    </style>
+  </head>
+  <body>
+  	<div class="grid-container">
+	<div class="grid-item-box">		
+	<div class="nested"></div>
+
+	<div class="nested">	
+  	<button class="button" onclick="updateGold()">Gold</button>
+    </div>
+
+	<div class="nested">
+	<button class="button button2" onclick="updateSilver()">Silver</button>
+    </div>
+
+	<div class="nested">
+	<button class="button button3" onclick="updateBronze()">Bronze</button>
+    </div>
+
+    <div class="nested">
+    </div>
+
+	</div>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script>
+    medaltype = 0;
+    empty = 0	
+    var width = window.innerWidth*0.35, height = window.innerHeight*0.5, sizeDivisor = 0.3, nodePadding = 2.5;
+
+    var svg = d3.select("div")
+        .append("svg")
+        .attr("width", width)
+        .attr("height", height);
+
+    var color = d3.scaleOrdinal(["#66c2a5", "#fc8d62", "#8da0cb", "#e78ac3", "#a6d854", "#ffd92f", "#e5c494", "#b3b3b3"]);
+
+    var simulation = d3.forceSimulation()
+        .force("forceX", d3.forceX().strength(0.2).x(width * .5))
+        .force("forceY", d3.forceY().strength(0.2).y(height * .5))
+        .force("center", d3.forceCenter().x(width * .5).y(height * .5))
+        .force("charge", d3.forceManyBody().strength(-15));
+
+    var node;
+
+    d3.csv("https://raw.githubusercontent.com/harryestreich/toyko2020olympicpredictions/master/oly.csv?token=AO6ISFEJZFKZK5Z6WPVH63TAGYAN2", type, function(error,graph){
+      if (error) throw error;
+
+
+      // sort the nodes so that the bigger ones are at the back
+      graph = graph.sort(function(a,b){ return b.size - a.size; });
+
+      //update the simulation based on the data
+      simulation
+          .nodes(graph)
+          .force("collide", d3.forceCollide().strength(0.6).radius(function(d){ return d.radiusgold + nodePadding; }).iterations(100))
+          .on("tick", function(d){
+            node
+                .attr("cx", function(d){ return d.x; })
+                .attr("cy", function(d){ return d.y; })
+	        if (medaltype == 0){
+	        	node.attr("fill", 'gold')
+        		.attr("r", function(d) { return d.radiusgold; })
+          		simulation.force("collide", d3.forceCollide().strength(0.6).radius(function(d){ return d.radiusgold + nodePadding; }).iterations(100))
+          		simulation.alpha(0.8).restart()
+	    	}
+	        if (medaltype == 1){
+	        	node.attr("fill", 'silver')
+        		.attr("r", function(d) { return d.radiussilver; })
+         		simulation.force("collide", d3.forceCollide().strength(0.6).radius(function(d){ return d.radiussilver + nodePadding; }).iterations(100))
+          		simulation.alpha(0.8).restart()
+	    	}
+	        if (medaltype == 2){
+	        	node.attr("fill", 'peru')
+        		.attr("r", function(d) { return d.radiusbronze; })
+          		simulation.force("collide", d3.forceCollide().strength(0.6).radius(function(d){ return d.radiusbronze + nodePadding; }).iterations(100))
+          		simulation.alpha(0.8).restart()
+	    	}
+
+          });
+
+      node = svg.append("g")
+        .attr("class", "node")
+        .selectAll("circle")
+        .data(graph)
+        .enter().append("circle")
+        .attr("r", function(d) { return d.radiusgold; })
+        .attr("cx", function(d){ return d.x; })
+        .attr("cy", function(d){ return d.y; })     
+      	// .call(d3.drag() // call specific function when circle is dragged
+       //     .on("start", dragstarted)
+       //     .on("drag", dragged)
+       //     .on("end", dragended));
+    });
+
+   //   // What happens when a circle is dragged?
+	  // function dragstarted(d) {
+	  //   if (!d3.event.active) simulation.alphaTarget(.03).restart();
+	  //   d.fx = d.x;
+	  //   d.fy = d.y;
+	  // }
+	  // function dragged(d) {
+	  //   d.fx = d3.event.x;
+	  //   d.fy = d3.event.y;
+	  // }
+	  // function dragended(d) {
+	  //   if (!d3.event.active) simulation.alphaTarget(.03);
+	  //   d.fx = null;
+	  //   d.fy = null;
+	  // }
+
+    function type(d){
+      d.gold = +d.gold;
+      d.size = +d.gold / sizeDivisor;
+      d.size < 5 ? d.radiusgold = 5 : d.radiusgold = d.size;
+      d.silver = +d.silver;
+      d.size = +d.silver / sizeDivisor;
+      d.size < 5 ? d.radiussilver = 5 : d.radiussilver = d.size;
+      d.bronze = +d.bronze;
+      d.size = +d.bronze / sizeDivisor;
+      d.size < 5 ? d.radiusbronze = 5 : d.radiusbronze = d.size;
+      return d;
+    }
+    function updateGold(){
+    	medaltype = 0;
+    	simulation.restart();
+    }
+    function updateSilver(){
+    	medaltype = 1;
+    	simulation.restart();
+    }
+    function updateBronze(){
+    	medaltype = 2;
+    	simulation.restart();
+    }
+
+    </script>
+	<div class="grid-item grid1">1
+	</div>
+  </body>
+</html>
