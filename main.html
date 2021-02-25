@@ -236,6 +236,11 @@
         		.attr("r", function(d) { return d.radiusbronze; })
           		simulation.force("collide", d3.forceCollide().strength(0.6).radius(function(d){ return d.radiusbronze + nodePadding; }).iterations(100))
 	    	}
+	        if (medaltype == 3){
+	        	node.attr("fill", 'blue')
+        		.attr("r", function(d) { return d.radiusbronze; })
+          		simulation.force("collide", d3.forceCollide().strength(0.6).radius(function(d){ return d.radiusbronze + nodePadding; }).iterations(100))
+	    	}
 
           });
 
@@ -479,21 +484,262 @@
     	}else{
         	document.getElementById("basketballbronze").innerHTML = "-"    		
     	}   	
-        if(d.3x3gold != 0.0){
-        	document.getElementById("basketballgold").innerHTML = d.basketballgold
+        if(d.threegold != 0.0){
+        	document.getElementById("threegold").innerHTML = d.threegold
     	}else{
-        	document.getElementById("basketballgold").innerHTML = "-"    		
+        	document.getElementById("threegold").innerHTML = "-"    		
     	}
-        if(d.basketballsilver != 0.0){
-        	document.getElementById("basketballsilver").innerHTML = d.basketballsilver
+        if(d.threesilver != 0.0){
+        	document.getElementById("threesilver").innerHTML = d.threesilver
     	}else{
-        	document.getElementById("basketballsilver").innerHTML = "-"    		
+        	document.getElementById("threesilver").innerHTML = "-"    		
     	}
-        if(d.basketballbronze != 0.0){
-        	document.getElementById("basketballbronze").innerHTML = d.basketballbronze
+        if(d.threebronze != 0.0){
+        	document.getElementById("threebronze").innerHTML = d.threebronze
     	}else{
-        	document.getElementById("basketballbronze").innerHTML = "-"    		
+        	document.getElementById("threebronze").innerHTML = "-"    		
+    	}   	
+        if(d.boxinggold != 0.0){
+        	document.getElementById("boxinggold").innerHTML = d.boxinggold
+    	}else{
+        	document.getElementById("boxinggold").innerHTML = "-"    		
     	}
+        if(d.boxingsilver != 0.0){
+        	document.getElementById("boxingsilver").innerHTML = d.boxingsilver
+    	}else{
+        	document.getElementById("boxingsilver").innerHTML = "-"    		
+    	}
+        if(d.boxingbronze != 0.0){
+        	document.getElementById("boxingbronze").innerHTML = d.boxingbronze
+    	}else{
+        	document.getElementById("boxingbronze").innerHTML = "-"    		
+    	}   	
+        if(d.canoeinggold != 0.0){
+        	document.getElementById("canoeinggold").innerHTML = d.canoeinggold
+    	}else{
+        	document.getElementById("canoeinggold").innerHTML = "-"    		
+    	}
+        if(d.canoeingsilver != 0.0){
+        	document.getElementById("canoeingsilver").innerHTML = d.canoeingsilver
+    	}else{
+        	document.getElementById("canoeingsilver").innerHTML = "-"    		
+    	}
+        if(d.canoeingbronze != 0.0){
+        	document.getElementById("canoeingbronze").innerHTML = d.canoeingbronze
+    	}else{
+        	document.getElementById("canoeingbronze").innerHTML = "-"    		
+    	}   	
+        if(d.slalomgold != 0.0){
+        	document.getElementById("slalomgold").innerHTML = d.slalomgold
+    	}else{
+        	document.getElementById("slalomgold").innerHTML = "-"    		
+    	}
+        if(d.slalomsilver != 0.0){
+        	document.getElementById("slalomsilver").innerHTML = d.slalomsilver
+    	}else{
+        	document.getElementById("slalomsilver").innerHTML = "-"    		
+    	}
+        if(d.slalombronze != 0.0){
+        	document.getElementById("slalombronze").innerHTML = d.slalombronze
+    	}else{
+        	document.getElementById("slalombronze").innerHTML = "-"    		
+    	}   	
+        if(d.sprintgold != 0.0){
+        	document.getElementById("sprintgold").innerHTML = d.sprintgold
+    	}else{
+        	document.getElementById("sprintgold").innerHTML = "-"    		
+    	}
+        if(d.sprintsilver != 0.0){
+        	document.getElementById("sprintsilver").innerHTML = d.sprintsilver
+    	}else{
+        	document.getElementById("sprintsilver").innerHTML = "-"    		
+    	}
+        if(d.sprintbronze != 0.0){
+        	document.getElementById("sprintbronze").innerHTML = d.sprintbronze
+    	}else{
+        	document.getElementById("sprintbronze").innerHTML = "-"    		
+    	}   	
+        if(d.cyclinggold != 0.0){
+        	document.getElementById("cyclinggold").innerHTML = d.cyclinggold
+    	}else{
+        	document.getElementById("cyclinggold").innerHTML = "-"    		
+    	}
+        if(d.cyclingsilver != 0.0){
+        	document.getElementById("cyclingsilver").innerHTML = d.cyclingsilver
+    	}else{
+        	document.getElementById("cyclingsilver").innerHTML = "-"    		
+    	}
+        if(d.cyclingbronze != 0.0){
+        	document.getElementById("cyclingbronze").innerHTML = d.cyclingbronze
+    	}else{
+        	document.getElementById("cyclingbronze").innerHTML = "-"    		
+    	}   	
+        if(d.bmxfreegold != 0.0){
+        	document.getElementById("bmxfreegold").innerHTML = d.bmxfreegold
+    	}else{
+        	document.getElementById("bmxfreegold").innerHTML = "-"    		
+    	}
+        if(d.bmxfreesilver != 0.0){
+        	document.getElementById("bmxfreesilver").innerHTML = d.bmxfreesilver
+    	}else{
+        	document.getElementById("bmxfreesilver").innerHTML = "-"    		
+    	}
+        if(d.bmxfreebronze != 0.0){
+        	document.getElementById("bmxfreebronze").innerHTML = d.bmxfreebronze
+    	}else{
+        	document.getElementById("bmxfreebronze").innerHTML = "-"    		
+    	}   	
+        if(d.bmxracinggold != 0.0){
+        	document.getElementById("bmxracinggold").innerHTML = d.bmxracinggold
+    	}else{
+        	document.getElementById("bmxracinggold").innerHTML = "-"    		
+    	}
+        if(d.bmxracingsilver != 0.0){
+        	document.getElementById("bmxracingsilver").innerHTML = d.bmxracingsilver
+    	}else{
+        	document.getElementById("bmxracingsilver").innerHTML = "-"    		
+    	}
+        if(d.bmxracingbronze != 0.0){
+        	document.getElementById("bmxracingbronze").innerHTML = d.bmxracingbronze
+    	}else{
+        	document.getElementById("bmxracingbronze").innerHTML = "-"    		
+    	}   	
+        if(d.mountbikegold != 0.0){
+        	document.getElementById("mountbikegold").innerHTML = d.mountbikegold
+    	}else{
+        	document.getElementById("mountbikegold").innerHTML = "-"    		
+    	}
+        if(d.mountbikesilver != 0.0){
+        	document.getElementById("mountbikesilver").innerHTML = d.mountbikesilver
+    	}else{
+        	document.getElementById("mountbikesilver").innerHTML = "-"    		
+    	}
+        if(d.mountbikebronze != 0.0){
+        	document.getElementById("mountbikebronze").innerHTML = d.mountbikebronze
+    	}else{
+        	document.getElementById("mountbikebronze").innerHTML = "-"    		
+    	}   	
+        if(d.roadcyclinggold != 0.0){
+        	document.getElementById("roadcyclinggold").innerHTML = d.roadcyclinggold
+    	}else{
+        	document.getElementById("roadcyclinggold").innerHTML = "-"    		
+    	}
+        if(d.roadcyclingsilver != 0.0){
+        	document.getElementById("roadcyclingsilver").innerHTML = d.roadcyclingsilver
+    	}else{
+        	document.getElementById("roadcyclingsilver").innerHTML = "-"    		
+    	}
+        if(d.roadcyclingbronze != 0.0){
+        	document.getElementById("roadcyclingbronze").innerHTML = d.roadcyclingbronze
+    	}else{
+        	document.getElementById("roadcyclingbronze").innerHTML = "-"    		
+    	}   	
+        if(d.trackcyclinggold != 0.0){
+        	document.getElementById("trackcyclinggold").innerHTML = d.trackcyclinggold
+    	}else{
+        	document.getElementById("trackcyclinggold").innerHTML = "-"    		
+    	}
+        if(d.trackcyclingsilver != 0.0){
+        	document.getElementById("trackcyclingsilver").innerHTML = d.trackcyclingsilver
+    	}else{
+        	document.getElementById("trackcyclingsilver").innerHTML = "-"    		
+    	}
+        if(d.trackcyclingbronze != 0.0){
+        	document.getElementById("trackcyclingbronze").innerHTML = d.trackcyclingbronze
+    	}else{
+        	document.getElementById("trackcyclingbronze").innerHTML = "-"    		
+    	}   	
+        if(d.equestriangold != 0.0){
+        	document.getElementById("equestriangold").innerHTML = d.equestriangold
+    	}else{
+        	document.getElementById("equestriangold").innerHTML = "-"    		
+    	}
+        if(d.equestriansilver != 0.0){
+        	document.getElementById("equestriansilver").innerHTML = d.equestriansilver
+    	}else{
+        	document.getElementById("equestriansilver").innerHTML = "-"    		
+    	}
+        if(d.equestrianbronze != 0.0){
+        	document.getElementById("equestrianbronze").innerHTML = d.equestrianbronze
+    	}else{
+        	document.getElementById("equestrianbronze").innerHTML = "-"    		
+    	}   	
+        if(d.dressagegold != 0.0){
+        	document.getElementById("dressagegold").innerHTML = d.dressagegold
+    	}else{
+        	document.getElementById("dressagegold").innerHTML = "-"    		
+    	}
+        if(d.dressagesilver != 0.0){
+        	document.getElementById("dressagesilver").innerHTML = d.dressagesilver
+    	}else{
+        	document.getElementById("dressagesilver").innerHTML = "-"    		
+    	}
+        if(d.dressagebronze != 0.0){
+        	document.getElementById("dressagebronze").innerHTML = d.dressagebronze
+    	}else{
+        	document.getElementById("dressagebronze").innerHTML = "-"    		
+    	}   	
+        if(d.eventinggold != 0.0){
+        	document.getElementById("eventinggold").innerHTML = d.eventinggold
+    	}else{
+        	document.getElementById("eventinggold").innerHTML = "-"    		
+    	}
+        if(d.eventingsilver != 0.0){
+        	document.getElementById("eventingsilver").innerHTML = d.eventingsilver
+    	}else{
+        	document.getElementById("eventingsilver").innerHTML = "-"    		
+    	}
+        if(d.eventingbronze != 0.0){
+        	document.getElementById("eventingbronze").innerHTML = d.eventingbronze
+    	}else{
+        	document.getElementById("eventingbronze").innerHTML = "-"    		
+    	}   	
+        if(d.jumpinggold != 0.0){
+        	document.getElementById("jumpinggold").innerHTML = d.jumpinggold
+    	}else{
+        	document.getElementById("jumpinggold").innerHTML = "-"    		
+    	}
+        if(d.jumpingsilver != 0.0){
+        	document.getElementById("jumpingsilver").innerHTML = d.jumpingsilver
+    	}else{
+        	document.getElementById("jumpingsilver").innerHTML = "-"    		
+    	}
+        if(d.jumpingbronze != 0.0){
+        	document.getElementById("jumpingbronze").innerHTML = d.jumpingbronze
+    	}else{
+        	document.getElementById("jumpingbronze").innerHTML = "-"    		
+    	}   	
+        if(d.fencinggold != 0.0){
+        	document.getElementById("fencinggold").innerHTML = d.fencinggold
+    	}else{
+        	document.getElementById("fencinggold").innerHTML = "-"    		
+    	}
+        if(d.fencingsilver != 0.0){
+        	document.getElementById("fencingsilver").innerHTML = d.fencingsilver
+    	}else{
+        	document.getElementById("fencingsilver").innerHTML = "-"    		
+    	}
+        if(d.fencingbronze != 0.0){
+        	document.getElementById("fencingbronze").innerHTML = d.fencingbronze
+    	}else{
+        	document.getElementById("fencingbronze").innerHTML = "-"    		
+    	}   	
+        if(d.hockeygold != 0.0){
+        	document.getElementById("hockeygold").innerHTML = d.hockeygold
+    	}else{
+        	document.getElementById("hockeygold").innerHTML = "-"    		
+    	}
+        if(d.hockeysilver != 0.0){
+        	document.getElementById("hockeysilver").innerHTML = d.hockeysilver
+    	}else{
+        	document.getElementById("hockeysilver").innerHTML = "-"    		
+    	}
+        if(d.hockeybronze != 0.0){
+        	document.getElementById("hockeybronze").innerHTML = d.hockeybronze
+    	}else{
+        	document.getElementById("hockeybronze").innerHTML = "-"    		
+    	}
+
 
     }
 
@@ -547,6 +793,9 @@
       d.bronze = +d.bronze;
       d.size = +d.bronze / sizeDivisor;
       (d.size < 1 && d.size > 0) ? d.radiusbronze = 1 : d.radiusbronze = d.size;
+      d.total = +d.total;
+      d.size = +d.total / sizeDivisor;
+      (d.size < 1 && d.size > 0) ? d.radiusbronze = 1 : d.radiusbronze = d.size;
       return d;
     }
     function updateGold(){
@@ -570,6 +819,13 @@
         document.getElementById("goldmedal").style.fontWeight = "normal";
         document.getElementById("silvermedal").style.fontWeight = "normal";
         document.getElementById("bronzemedal").style.fontWeight = "bold";
+    }
+    function updateTotal(){
+    	medaltype = 3;
+        simulation.alpha(0.8).restart()    
+        document.getElementById("goldmedal").style.fontWeight = "normal";
+        document.getElementById("silvermedal").style.fontWeight = "normal";
+        document.getElementById("bronzemedal").style.fontWeight = "normal";
     }
     </script>
 </div>
