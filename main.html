@@ -20,7 +20,7 @@
 	  margin: 4px 2px;
 	  cursor: pointer;
 	  width: 80%;
-	  height:100%;
+	  height:80%;
       position: relative;
       left: 7%;
 	}
@@ -40,7 +40,6 @@
 	  display: grid;
 	  grid-template-columns: 1fr;
 	  grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
-	  background-color: #2196F3;
 	}
 	.grid-item-country{
 		grid-column: 1 / 21;
@@ -141,6 +140,8 @@
 
 	.button2 {background-color: #C0C0C0;} 
 	.button3 {background-color: #CD853F;} 
+	.button4 {background-color: #0000FF;} 
+	.button4 {color: #ffffff;} 
     </style>
   </head>
   <body>
@@ -157,6 +158,7 @@
 	<button class="button button3" onclick="updateBronze()">Bronze</button>
     </div>
     <div class="nested">
+	<button class="button button4" onclick="updateTotal()">Total</button>
     </div>
 	</div>
 
@@ -238,8 +240,8 @@
 	    	}
 	        if (medaltype == 3){
 	        	node.attr("fill", 'blue')
-        		.attr("r", function(d) { return d.radiusbronze; })
-          		simulation.force("collide", d3.forceCollide().strength(0.6).radius(function(d){ return d.radiusbronze + nodePadding; }).iterations(100))
+        		.attr("r", function(d) { return d.radiustotal; })
+          		simulation.force("collide", d3.forceCollide().strength(0.6).radius(function(d){ return d.radiustotal + nodePadding; }).iterations(100))
 	    	}
 
           });
@@ -794,8 +796,8 @@
       d.size = +d.bronze / sizeDivisor;
       (d.size < 1 && d.size > 0) ? d.radiusbronze = 1 : d.radiusbronze = d.size;
       d.total = +d.total;
-      d.size = +d.total / sizeDivisor;
-      (d.size < 1 && d.size > 0) ? d.radiusbronze = 1 : d.radiusbronze = d.size;
+      d.size = +d.total / sizeDivisor / 3;
+      (d.size < 1 && d.size > 0) ? d.radiustotal = 1 : d.radiustotal = d.size;
       return d;
     }
     function updateGold(){
