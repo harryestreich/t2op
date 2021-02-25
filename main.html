@@ -323,13 +323,13 @@
     function type(d){
       d.gold = +d.gold;
       d.size = +d.gold / sizeDivisor;
-      d.size < 1 ? d.radiusgold = 0 : d.radiusgold = d.size;
+      (d.size < 1 && d.size > 0) ? d.radiusgold = 1 : d.radiusgold = d.size;
       d.silver = +d.silver;
       d.size = +d.silver / sizeDivisor;
-      d.size < 1 ? d.radiussilver = 0 : d.radiussilver = d.size;
+      (d.size < 1 && d.size > 0) ? d.radiussilver = 1 : d.radiussilver = d.size;
       d.bronze = +d.bronze;
       d.size = +d.bronze / sizeDivisor;
-      d.size < 1 ? d.radiusbronze = 0 : d.radiusbronze = d.size;
+      (d.size < 1 && d.size > 0) ? d.radiusbronze = 1 : d.radiusbronze = d.size;
       return d;
     }
     function updateGold(){
