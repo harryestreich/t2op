@@ -6,13 +6,13 @@
  	 margin: 0;
 	}    
 	.node circle {
-      stroke: #000090;
-      stroke-width: .5px;
+      stroke: #000000;
+      stroke-width: 1px;
     }
 	.button {
 	  background-color: #FFD700; 
 	  border: none;
-	  color: white;
+	  color: black;
 	  text-align: center;
 	  text-decoration: none;
 	  display: block;
@@ -39,7 +39,7 @@
 	.grid-item-box{
 	  display: grid;
 	  grid-template-columns: 1fr;
-	  grid-template-rows: auto auto auto auto auto;
+	  grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
 	  background-color: #2196F3;
 	}
 	.grid-item-country{
@@ -89,6 +89,44 @@
 	  background-position: center;
 	  background-repeat: no-repeat;
 	}
+	.grid-item-chart{
+		display: grid;
+		grid-template-rows: 1fr 10fr;
+		grid-template-columns: 7fr 1fr 1fr 1fr;
+	}
+	.grid-gold {
+	  display: flex;
+	  justify-content: center;
+	  align-items: center;
+	  font-size: 1vw;
+	  background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Gold_circle.svg/1024px-Gold_circle.svg.png');
+	  background-size: contain;
+	  background-position: center;
+	  background-repeat: no-repeat;
+	  order: 2;
+	}
+	.grid-silver {
+	  display: flex;
+	  justify-content: center;
+	  align-items: center;
+	  font-size: 1vw;
+	  background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Silver_medal_blank.svg/1200px-Silver_medal_blank.svg.png');
+	  background-size: contain;
+	  background-position: center;
+	  background-repeat: no-repeat;
+	  order: 3;
+	}
+	.grid-bronze {
+	  display: flex;
+	  justify-content: center;
+	  align-items: center;
+	  font-size: 1vw;
+	  background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Bronze_circle.svg/1200px-Bronze_circle.svg.png');
+	  background-size: contain;
+	  background-position: center;
+	  background-repeat: no-repeat;
+	  order: 4;
+	}
 
 
 	.button2 {background-color: #C0C0C0;} 
@@ -111,16 +149,43 @@
     <div class="nested">
     </div>
 	</div>
+
+	<div class="grid-item-chart">	
+	<div id = "goldmedal" style = "font-weight: bold" class ="grid-gold">
+	</div>	
+	<div id = "silvermedal" class ="grid-silver">
+	</div>	
+	<div id = "bronzemedal" class ="grid-bronze">
+	</div>
+
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script>
     medaltype = 0;
     empty = 0	
-    var width = window.innerWidth*0.378, height = window.innerHeight*0.5, sizeDivisor = 0.3, nodePadding = 2.5;
+    var width = window.innerWidth*0.343, height = window.innerHeight*0.45, sizeDivisor = 0.4, nodePadding = 2.5;
+    var tooltipHeight = window.innerHeight * 0.03;
+  
+  	var Tooltip = d3.select(".grid-item-chart")
+	    .append("div")
+	    .style("opacity", 1)
+	    .attr("class", "tooltip")
+	    .style("background-color", "white")
+	    .style("font-size", "1.3vw")
+	    .style("border", "solid")
+	    .style("border-width", "2px")
+	    .style("border-radius", "5px")
+	    .style("padding-bottom", "10px")
+	    .style("order", "1")
+	    .style("display", "table-cell")
+	    .style("height", tooltipHeight)
+	    .style("vertical-align", "middle")
 
-    var svg = d3.select("div")
+    var svg = d3.select(".grid-item-chart")
         .append("svg")
         .attr("width", width)
         .attr("height", height)
+        .style("grid-column", "1 / 5")
+	    .style("order", "5")
 
     var color = d3.scaleOrdinal(["#66c2a5", "#fc8d62", "#8da0cb", "#e78ac3", "#a6d854", "#ffd92f", "#e5c494", "#b3b3b3"]);
 
@@ -129,7 +194,6 @@
         .force("forceY", d3.forceY().strength(0.2).y(height * .5))
         .force("center", d3.forceCenter().x(width * .5).y(height * .5))
         .force("charge", d3.forceManyBody().strength(-15));
-
     var node;
 
     d3.csv("https://raw.githubusercontent.com/harryestreich/t2op/master/olyy.csv", type, function(error,graph){
@@ -173,13 +237,17 @@
         .attr("r", function(d){ return d.radiusgold; })
         .attr("cx", function(d){ return d.x; })
         .attr("cy", function(d){ return d.y; }) 
-        .on("mouseover", setCountry)
-        .on("mouseout", removeHighlight)
+        .on("mouseover", addHighlight)
+        .on("click", setCountry)
+        .on("mouseleave", removeHighlight)
+        .on("mousemove", mousemove)
+      	.call(d3.drag() // call specific function when circle is dragged
+            .on("start", dragstarted)
+            .on("start", setCountry)
+        	.on("drag", dragged)
+            .on("end", dragended));
+
       text_labels()
-      	// .call(d3.drag() // call specific function when circle is dragged
-       //     .on("start", dragstarted)
-       //     .on("drag", dragged)
-       //     .on("end", dragended));
     });
 
     function text_labels(d){
@@ -191,6 +259,14 @@
 	    	.text(function(d) { return d.country});
     }
 
+    function addHighlight(d){
+    	d3.select(this)
+        	.transition()
+        	.duration(100)
+        	.style("stroke-width", 5)
+        	.style("stroke", "black");
+    }
+
     function setCountry(d){
     	document.getElementById("country").innerHTML = d.country
       	d3.select(this)
@@ -199,58 +275,87 @@
         	.style("stroke-width", 5)
         	.style("stroke", "black");
         document.getElementById("aquaticsgold").innerHTML = d.aquaticsgold
+        document.getElementById("aquaticssilver").innerHTML = d.aquaticssilver
+        document.getElementById("aquaticsbronze").innerHTML = d.aquaticsbronze
 
     }
 
     function removeHighlight(d){
+    	Tooltip
+      		.html("")
     	d3.select(this)
         	.transition()
         	.duration(100)
         	.style("stroke-width", 1)
-        	.style("stroke", "black")
+        	.style("stroke", "black")    
+        document.getElementById("goldmedal").innerHTML = ""
+        document.getElementById("silvermedal").innerHTML = ""
+        document.getElementById("bronzemedal").innerHTML = ""
     }
 
-   //   // What happens when a circle is dragged?
-	  // function dragstarted(d) {
-	  //   if (!d3.event.active) simulation.alphaTarget(.03).restart();
-	  //   d.fx = d.x;
-	  //   d.fy = d.y;
-	  // }
-	  // function dragged(d) {
-	  //   d.fx = d3.event.x;
-	  //   d.fy = d3.event.y;
-	  // }
-	  // function dragended(d) {
-	  //   if (!d3.event.active) simulation.alphaTarget(.03);
-	  //   d.fx = null;
-	  //   d.fy = null;
-	  // }
+	var mousemove = function(d) {
+	    Tooltip
+	      .html(d.country)  
+        document.getElementById("goldmedal").innerHTML = d.gold
+        document.getElementById("silvermedal").innerHTML = d.silver
+        document.getElementById("bronzemedal").innerHTML = d.bronze
+	}
+
+	function dragstarted(d) {
+	if (!d3.event.active) simulation.alphaTarget(.2).restart();
+	    d.fx = d.x;
+	    d.fy = d.y;
+	}
+
+	function dragged(d) {
+		if((d3.event.x > 0 && d3.event.x < width) && (d3.event.y > 0 && d3.event.y < height)){
+	    	d.fx = d3.event.x;
+	    	d.fy = d3.event.y;
+		}
+	}
+
+	function dragended(d) {
+	if (!d3.event.active) simulation.alphaTarget(.2);
+	   d.fx = null;
+	   d.fy = null;
+	}
 
     function type(d){
       d.gold = +d.gold;
       d.size = +d.gold / sizeDivisor;
-      d.size < 5 ? d.radiusgold = 5 : d.radiusgold = d.size;
+      d.size < 1 ? d.radiusgold = 0 : d.radiusgold = d.size;
       d.silver = +d.silver;
       d.size = +d.silver / sizeDivisor;
-      d.size < 5 ? d.radiussilver = 5 : d.radiussilver = d.size;
+      d.size < 1 ? d.radiussilver = 0 : d.radiussilver = d.size;
       d.bronze = +d.bronze;
       d.size = +d.bronze / sizeDivisor;
-      d.size < 5 ? d.radiusbronze = 5 : d.radiusbronze = d.size;
+      d.size < 1 ? d.radiusbronze = 0 : d.radiusbronze = d.size;
       return d;
     }
     function updateGold(){
     	medaltype = 0;
-    	simulation.alpha(0.8).restart()
+    	simulation.alpha(0.8).restart()    
+        document.getElementById("goldmedal").style.fontWeight = "bold";
+        document.getElementById("silvermedal").style.fontWeight = "normal";
+        document.getElementById("bronzemedal").style.fontWeight = "normal";
+
     }
     function updateSilver(){
     	medaltype = 1;
-        simulation.alpha(0.8).restart()
+        simulation.alpha(0.8).restart()    
+        document.getElementById("goldmedal").style.fontWeight = "normal";
+        document.getElementById("silvermedal").style.fontWeight = "bold";
+        document.getElementById("bronzemedal").style.fontWeight = "normal";
     }
     function updateBronze(){
     	medaltype = 2;
-        simulation.alpha(0.8).restart()
+        simulation.alpha(0.8).restart()    
+        document.getElementById("goldmedal").style.fontWeight = "normal";
+        document.getElementById("silvermedal").style.fontWeight = "normal";
+        document.getElementById("bronzemedal").style.fontWeight = "bold";
     }
     </script>
+</div>
     <div class = "grid-item-tally">
     <!-- Row 1 -->
 	<div id = "country" class="grid-item-country">
