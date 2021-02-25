@@ -2,8 +2,11 @@
   <head>
   	<link rel="shortcut icon" href="#">
     <style>
-    .node circle {
-      stroke: #3a403d;
+    body {
+ 	 margin: 0;
+	}    
+	.node circle {
+      stroke: #000090;
       stroke-width: .5px;
     }
 	.button {
@@ -23,8 +26,8 @@
 	}
 	.grid-container {
 	  display: grid;
-	  grid-template-columns: 5% 35% 60%;
-	  grid-gap: 10px;
+	  grid-template-columns: 2fr 12fr 20fr;
+	  grid-template-rows: 1fr 1fr;
 	  background-color: #2196F3;
 	}
 
@@ -35,10 +38,58 @@
 	}
 	.grid-item-box{
 	  display: grid;
-	  grid-template-columns: auto;
-	  grid-template-rows: 20% auto auto auto 20%;
-	  background-color: #2196F3;		
+	  grid-template-columns: 1fr;
+	  grid-template-rows: auto auto auto auto auto;
+	  background-color: #2196F3;
 	}
+	.grid-item-country{
+		grid-column: 1 / 22;
+	}
+	.grid-item-tally{
+		display: grid;
+		grid-template-columns: 2fr 1fr 1fr 1fr 2fr 1fr 1fr 1fr 2fr 1fr 1fr 1fr 2fr 1fr 1fr 1fr 2fr 1fr 1fr 1fr;
+		grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+	}
+	.grid-item-event {
+	  display: flex;
+	  justify-content: center;
+	  align-items: center;
+	  font-size: 1vw;
+	  white-space: nowrap;
+	  padding-left: 2px;
+	  padding-right: 2px;
+	}
+	.grid-item-gold {
+	  display: flex;
+	  justify-content: center;
+	  align-items: center;
+	  font-size: 1vw;
+	  background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Gold_circle.svg/1024px-Gold_circle.svg.png');
+	  background-size: contain;
+	  background-position: center;
+	  background-repeat: no-repeat;
+	}
+	.grid-item-silver {
+	  display: flex;
+	  justify-content: center;
+	  align-items: center;
+	  font-size: 1vw;
+	  background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Silver_medal_blank.svg/1200px-Silver_medal_blank.svg.png');
+	  background-size: contain;
+	  background-position: center;
+	  background-repeat: no-repeat;
+	}
+	.grid-item-bronze {
+	  display: flex;
+	  justify-content: center;
+	  align-items: center;
+	  font-size: 1vw;
+	  background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Bronze_circle.svg/1200px-Bronze_circle.svg.png');
+	  background-size: contain;
+	  background-position: center;
+	  background-repeat: no-repeat;
+	}
+
 
 	.button2 {background-color: #C0C0C0;} 
 	.button3 {background-color: #CD853F;} 
@@ -48,33 +99,28 @@
   	<div class="grid-container">
 	<div class="grid-item-box">		
 	<div class="nested"></div>
-
 	<div class="nested">	
   	<button class="button" onclick="updateGold()">Gold</button>
     </div>
-
 	<div class="nested">
 	<button class="button button2" onclick="updateSilver()">Silver</button>
     </div>
-
 	<div class="nested">
 	<button class="button button3" onclick="updateBronze()">Bronze</button>
     </div>
-
     <div class="nested">
     </div>
-
 	</div>
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script>
     medaltype = 0;
     empty = 0	
-    var width = window.innerWidth*0.35, height = window.innerHeight*0.5, sizeDivisor = 0.3, nodePadding = 2.5;
+    var width = window.innerWidth*0.378, height = window.innerHeight*0.5, sizeDivisor = 0.3, nodePadding = 2.5;
 
     var svg = d3.select("div")
         .append("svg")
         .attr("width", width)
-        .attr("height", height);
+        .attr("height", height)
 
     var color = d3.scaleOrdinal(["#66c2a5", "#fc8d62", "#8da0cb", "#e78ac3", "#a6d854", "#ffd92f", "#e5c494", "#b3b3b3"]);
 
@@ -104,20 +150,17 @@
 	        if (medaltype == 0){
 	        	node.attr("fill", 'gold')
         		.attr("r", function(d) { return d.radiusgold; })
-          		simulation.force("collide", d3.forceCollide().strength(0.6).radius(function(d){ return d.radiusgold + nodePadding; }).iterations(100))
-          		simulation.alpha(0.8).restart()
+          		simulation.force("collide", d3.forceCollide().strength(0.6).radius(function(d){ return d.radiusgold + nodePadding; }).iterations(100))	
 	    	}
 	        if (medaltype == 1){
 	        	node.attr("fill", 'silver')
         		.attr("r", function(d) { return d.radiussilver; })
          		simulation.force("collide", d3.forceCollide().strength(0.6).radius(function(d){ return d.radiussilver + nodePadding; }).iterations(100))
-          		simulation.alpha(0.8).restart()
 	    	}
 	        if (medaltype == 2){
 	        	node.attr("fill", 'peru')
         		.attr("r", function(d) { return d.radiusbronze; })
           		simulation.force("collide", d3.forceCollide().strength(0.6).radius(function(d){ return d.radiusbronze + nodePadding; }).iterations(100))
-          		simulation.alpha(0.8).restart()
 	    	}
 
           });
@@ -127,14 +170,45 @@
         .selectAll("circle")
         .data(graph)
         .enter().append("circle")
-        .attr("r", function(d) { return d.radiusgold; })
+        .attr("r", function(d){ return d.radiusgold; })
         .attr("cx", function(d){ return d.x; })
-        .attr("cy", function(d){ return d.y; })     
+        .attr("cy", function(d){ return d.y; }) 
+        .on("mouseover", setCountry)
+        .on("mouseout", removeHighlight)
+      text_labels()
       	// .call(d3.drag() // call specific function when circle is dragged
        //     .on("start", dragstarted)
        //     .on("drag", dragged)
        //     .on("end", dragended));
     });
+
+    function text_labels(d){
+   		node.append("text")  
+	        .style("font-size", "4px") 
+	        .attr("x", function(d) {  return d.x;})
+	        .attr("y", function(d) {  return d.y;})
+	    	.style("color", "black")
+	    	.text(function(d) { return d.country});
+    }
+
+    function setCountry(d){
+    	document.getElementById("country").innerHTML = d.country
+      	d3.select(this)
+        	.transition()
+        	.duration(100)
+        	.style("stroke-width", 5)
+        	.style("stroke", "black");
+        document.getElementById("aquaticsgold").innerHTML = d.aquaticsgold
+
+    }
+
+    function removeHighlight(d){
+    	d3.select(this)
+        	.transition()
+        	.duration(100)
+        	.style("stroke-width", 1)
+        	.style("stroke", "black")
+    }
 
    //   // What happens when a circle is dragged?
 	  // function dragstarted(d) {
@@ -166,19 +240,63 @@
     }
     function updateGold(){
     	medaltype = 0;
-    	simulation.restart();
+    	simulation.alpha(0.8).restart()
     }
     function updateSilver(){
     	medaltype = 1;
-    	simulation.restart();
+        simulation.alpha(0.8).restart()
     }
     function updateBronze(){
     	medaltype = 2;
-    	simulation.restart();
+        simulation.alpha(0.8).restart()
     }
-
     </script>
-	<div class="grid-item grid1">1
+    <div class = "grid-item-tally">
+    <!-- Row 1 -->
+	<div id = "country" class="grid-item-country">
 	</div>
+    <!-- Row 2 -->
+	<div id = "aquatics" class="grid-item-event">Aquatics
+	</div>
+	<div id = "aquaticsgold" class="grid-item-gold">0
+	</div>	
+	<div id = "aquaticssilver" class="grid-item-silver">0
+	</div>	
+	<div id = "aquaticsbronze" class="grid-item-bronze">0
+	</div>
+	<div id = "5x5" class="grid-item-event">5x5
+	</div>
+	<div id = "5x5gold" class="grid-item-gold">0
+	</div>	
+	<div id = "5x5silver" class="grid-item-silver">0
+	</div>	
+	<div id = "5x5bronze" class="grid-item-bronze">0
+	</div>
+	<div id = "equestrian" class="grid-item-event">Equestrian
+	</div>
+	<div id = "equestriangold" class="grid-item-gold">0
+	</div>	
+	<div id = "equestriansilver" class="grid-item-silver">0
+	</div>	
+	<div id = "equestrianbronze" class="grid-item-bronze">0
+	</div>
+	<div id = "handball" class="grid-item-event">Handball
+	</div>
+	<div id = "handballgold" class="grid-item-gold">0
+	</div>	
+	<div id = "handballsilver" class="grid-item-silver">0
+	</div>	
+	<div id = "handballbronze" class="grid-item-bronze">0
+	</div>
+	<div id = "surfing" class="grid-item-event">Surfing
+	</div>
+	<div id = "surfinggold" class="grid-item-gold">0
+	</div>	
+	<div id = "surfingsilver" class="grid-item-silver">0
+	</div>	
+	<div id = "surfingsbronze" class="grid-item-bronze">0
+	</div>
+
+</div>
   </body>
 </html>
