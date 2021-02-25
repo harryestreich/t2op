@@ -43,7 +43,7 @@
 	  background-color: #2196F3;
 	}
 	.grid-item-country{
-		grid-column: 1 / 22;
+		grid-column: 1 / 21;
 	}
 	.grid-item-tally{
 		display: grid;
@@ -55,6 +55,16 @@
 	  justify-content: center;
 	  align-items: center;
 	  font-size: 1vw;
+	  white-space: nowrap;
+	  padding-left: 2px;
+	  padding-right: 2px;
+	  font-weight: bold;
+	}
+	.grid-item-sub-event {
+	  display: flex;
+	  justify-content: center;
+	  align-items: center;
+	  font-size: 0.8vw;
 	  white-space: nowrap;
 	  padding-left: 2px;
 	  padding-right: 2px;
@@ -170,7 +180,7 @@
 	    .style("opacity", 1)
 	    .attr("class", "tooltip")
 	    .style("background-color", "white")
-	    .style("font-size", "1.3vw")
+	    .style("font-size", "1.7vw")
 	    .style("border", "solid")
 	    .style("border-width", "2px")
 	    .style("border-radius", "5px")
@@ -274,9 +284,81 @@
         	.duration(100)
         	.style("stroke-width", 5)
         	.style("stroke", "black");
-        document.getElementById("aquaticsgold").innerHTML = d.aquaticsgold
-        document.getElementById("aquaticssilver").innerHTML = d.aquaticssilver
-        document.getElementById("aquaticsbronze").innerHTML = d.aquaticsbronze
+        if(d.aquaticsgold != 0.0){
+        	document.getElementById("aquaticsgold").innerHTML = d.aquaticsgold
+    	}else{
+        	document.getElementById("aquaticsgold").innerHTML = "-"    		
+    	}
+        if(d.aquaticssilver != 0.0){
+        	document.getElementById("aquaticssilver").innerHTML = d.aquaticssilver
+    	}else{
+        	document.getElementById("aquaticssilver").innerHTML = "-"    		
+    	}
+        if(d.aquaticsbronze != 0.0){
+        	document.getElementById("aquaticsbronze").innerHTML = d.aquaticsbronze
+    	}else{
+        	document.getElementById("aquaticsbronze").innerHTML = "-"    		
+    	}
+        if(d.artswimgold != 0.0){
+        	document.getElementById("artswimgold").innerHTML = d.artswimgold
+    	}else{
+        	document.getElementById("artswimgold").innerHTML = "-"    		
+    	}
+        if(d.artswimsilver != 0.0){
+        	document.getElementById("artswimsilver").innerHTML = d.artswimsilver
+    	}else{
+        	document.getElementById("artswimsilver").innerHTML = "-"    		
+    	}
+        if(d.artswimbronze != 0.0){
+        	document.getElementById("artswimbronze").innerHTML = d.artswimbronze
+    	}else{
+        	document.getElementById("artswimbronze").innerHTML = "-"    		
+    	}    	
+        if(d.divinggold != 0.0){
+        	document.getElementById("divinggold").innerHTML = d.divinggold
+    	}else{
+        	document.getElementById("divinggold").innerHTML = "-"    		
+    	}
+        if(d.divingsilver != 0.0){
+        	document.getElementById("divingsilver").innerHTML = d.divingsilver
+    	}else{
+        	document.getElementById("divingsilver").innerHTML = "-"    		
+    	}
+        if(d.divingbronze != 0.0){
+        	document.getElementById("divingbronze").innerHTML = d.divingbronze
+    	}else{
+        	document.getElementById("divingbronze").innerHTML = "-"    		
+    	}    	
+        if(d.swimminggold != 0.0){
+        	document.getElementById("swimminggold").innerHTML = d.swimminggold
+    	}else{
+        	document.getElementById("swimminggold").innerHTML = "-"    		
+    	}
+        if(d.swimmingsilver != 0.0){
+        	document.getElementById("swimmingsilver").innerHTML = d.swimmingsilver
+    	}else{
+        	document.getElementById("swimmingsilver").innerHTML = "-"    		
+    	}
+        if(d.swimmingbronze != 0.0){
+        	document.getElementById("swimmingbronze").innerHTML = d.swimmingbronze
+    	}else{
+        	document.getElementById("swimmingbronze").innerHTML = "-"    		
+    	}   	
+        if(d.pologold != 0.0){
+        	document.getElementById("pologold").innerHTML = d.pologold
+    	}else{
+        	document.getElementById("pologold").innerHTML = "-"    		
+    	}
+        if(d.polosilver != 0.0){
+        	document.getElementById("polosilver").innerHTML = d.polosilver
+    	}else{
+        	document.getElementById("polosilver").innerHTML = "-"    		
+    	}
+        if(d.polobronze != 0.0){
+        	document.getElementById("polobronze").innerHTML = d.polobronze
+    	}else{
+        	document.getElementById("polobronze").innerHTML = "-"    		
+    	}
 
     }
 
@@ -363,43 +445,207 @@
     <!-- Row 2 -->
 	<div id = "aquatics" class="grid-item-event">Aquatics
 	</div>
-	<div id = "aquaticsgold" class="grid-item-gold">0
+	<div id = "aquaticsgold" class="grid-item-gold">-
 	</div>	
-	<div id = "aquaticssilver" class="grid-item-silver">0
+	<div id = "aquaticssilver" class="grid-item-silver">-
 	</div>	
-	<div id = "aquaticsbronze" class="grid-item-bronze">0
+	<div id = "aquaticsbronze" class="grid-item-bronze">-
 	</div>
-	<div id = "5x5" class="grid-item-event">5x5
+	<div id = "3x3" class="grid-item-sub-event">3x3
 	</div>
-	<div id = "5x5gold" class="grid-item-gold">0
+	<div id = "3x3gold" class="grid-item-gold">-
 	</div>	
-	<div id = "5x5silver" class="grid-item-silver">0
+	<div id = "3x3silver" class="grid-item-silver">-
 	</div>	
-	<div id = "5x5bronze" class="grid-item-bronze">0
+	<div id = "3x3bronze" class="grid-item-bronze">-
 	</div>
 	<div id = "equestrian" class="grid-item-event">Equestrian
 	</div>
-	<div id = "equestriangold" class="grid-item-gold">0
+	<div id = "equestriangold" class="grid-item-gold">-
 	</div>	
-	<div id = "equestriansilver" class="grid-item-silver">0
+	<div id = "equestriansilver" class="grid-item-silver">-
 	</div>	
-	<div id = "equestrianbronze" class="grid-item-bronze">0
+	<div id = "equestrianbronze" class="grid-item-bronze">-
 	</div>
 	<div id = "handball" class="grid-item-event">Handball
 	</div>
-	<div id = "handballgold" class="grid-item-gold">0
+	<div id = "handballgold" class="grid-item-gold">-
 	</div>	
-	<div id = "handballsilver" class="grid-item-silver">0
+	<div id = "handballsilver" class="grid-item-silver">-
 	</div>	
-	<div id = "handballbronze" class="grid-item-bronze">0
+	<div id = "handballbronze" class="grid-item-bronze">-
 	</div>
 	<div id = "surfing" class="grid-item-event">Surfing
 	</div>
-	<div id = "surfinggold" class="grid-item-gold">0
+	<div id = "surfinggold" class="grid-item-gold">-
 	</div>	
-	<div id = "surfingsilver" class="grid-item-silver">0
+	<div id = "surfingsilver" class="grid-item-silver">-
 	</div>	
-	<div id = "surfingsbronze" class="grid-item-bronze">0
+	<div id = "surfingsbronze" class="grid-item-bronze">-
+	</div>
+    <!-- Row 3-->
+	<div id = "artswim" class="grid-item-sub-event">Artistic Swimming
+	</div>
+	<div id = "artswimgold" class="grid-item-gold">-
+	</div>	
+	<div id = "artswimsilver" class="grid-item-silver">-
+	</div>	
+	<div id = "artswimbronze" class="grid-item-bronze">-
+	</div>
+	<div id = "5x5" class="grid-item-sub-event">5x5
+	</div>
+	<div id = "5x5gold" class="grid-item-gold">-
+	</div>	
+	<div id = "5x5silver" class="grid-item-silver">-
+	</div>	
+	<div id = "5x5bronze" class="grid-item-bronze">-
+	</div>
+	<div id = "dressage" class="grid-item-sub-event">Dressage
+	</div>
+	<div id = "dressagegold" class="grid-item-gold">-
+	</div>	
+	<div id = "dressagesilver" class="grid-item-silver">-
+	</div>	
+	<div id = "dressagebronze" class="grid-item-bronze">-
+	</div>
+	<div id = "judo" class="grid-item-event">Judo
+	</div>
+	<div id = "judogold" class="grid-item-gold">-
+	</div>	
+	<div id = "judosilver" class="grid-item-silver">-
+	</div>	
+	<div id = "judobronze" class="grid-item-bronze">-
+	</div>
+	<div id = "tabletennis" class="grid-item-event">Table Tennis
+	</div>
+	<div id = "tabletennisgold" class="grid-item-gold">-
+	</div>	
+	<div id = "tabletennissilver" class="grid-item-silver">-
+	</div>	
+	<div id = "tabletennisbronze" class="grid-item-bronze">-
+	</div>
+    <!-- Row 4-->
+	<div id = "diving" class="grid-item-sub-event">Diving
+	</div>
+	<div id = "divinggold" class="grid-item-gold">-
+	</div>	
+	<div id = "divingsilver" class="grid-item-silver">-
+	</div>	
+	<div id = "divingbronze" class="grid-item-bronze">-
+	</div>
+	<div id = "boxing" class="grid-item-event">Boxing
+	</div>
+	<div id = "boxinggold" class="grid-item-gold">-
+	</div>	
+	<div id = "boxingsilver" class="grid-item-silver">-
+	</div>	
+	<div id = "boxingbronze" class="grid-item-bronze">-
+	</div>
+	<div id = "eventing" class="grid-item-sub-event">Eventing
+	</div>
+	<div id = "eventinggold" class="grid-item-gold">-
+	</div>	
+	<div id = "eventingsilver" class="grid-item-silver">-
+	</div>	
+	<div id = "eventingbronze" class="grid-item-bronze">-
+	</div>
+	<div id = "karate" class="grid-item-event">Karate
+	</div>
+	<div id = "karategold" class="grid-item-gold">-
+	</div>	
+	<div id = "karatesilver" class="grid-item-silver">-
+	</div>	
+	<div id = "karatebronze" class="grid-item-bronze">-
+	</div>
+	<div id = "taekwondo" class="grid-item-event">Taekwondo
+	</div>
+	<div id = "taekwondogold" class="grid-item-gold">-
+	</div>	
+	<div id = "taekwondosilver" class="grid-item-silver">-
+	</div>	
+	<div id = "taekwondobronze" class="grid-item-bronze">-
+	</div>
+    <!-- Row 5-->
+	<div id = "swimming" class="grid-item-sub-event">Swimming
+	</div>
+	<div id = "swimminggold" class="grid-item-gold">-
+	</div>	
+	<div id = "swimmingsilver" class="grid-item-silver">-
+	</div>	
+	<div id = "swimmingbronze" class="grid-item-bronze">-
+	</div>
+	<div id = "canoeing" class="grid-item-event">Canoeing
+	</div>
+	<div id = "canoeinggold" class="grid-item-gold">-
+	</div>	
+	<div id = "canoeingsilver" class="grid-item-silver">-
+	</div>	
+	<div id = "canoeingbronze" class="grid-item-bronze">-
+	</div>
+	<div id = "jumping" class="grid-item-sub-event">Jumping
+	</div>
+	<div id = "jumpinggold" class="grid-item-gold">-
+	</div>	
+	<div id = "jumpingsilver" class="grid-item-silver">-
+	</div>	
+	<div id = "jumpingbronze" class="grid-item-bronze">-
+	</div>
+	<div id = "kata" class="grid-item-sub-event">Kata
+	</div>
+	<div id = "katagold" class="grid-item-gold">-
+	</div>	
+	<div id = "katasilver" class="grid-item-silver">-
+	</div>	
+	<div id = "katabronze" class="grid-item-bronze">-
+	</div>
+	<div id = "tennis" class="grid-item-event">Tennis
+	</div>
+	<div id = "tennisgold" class="grid-item-gold">-
+	</div>	
+	<div id = "tennissilver" class="grid-item-silver">-
+	</div>	
+	<div id = "tennisbronze" class="grid-item-bronze">-
+	</div>	
+    <!-- Row 6-->
+	<div id = "polo" class="grid-item-sub-event">Water Polo
+	</div>
+	<div id = "pologold" class="grid-item-gold">-
+	</div>	
+	<div id = "polosilver" class="grid-item-silver">-
+	</div>	
+	<div id = "polobronze" class="grid-item-bronze">-
+	</div>
+	<div id = "slalom" class="grid-item-event">Slalom
+	</div>
+	<div id = "slalomgold" class="grid-item-gold">-
+	</div>	
+	<div id = "slalomsilver" class="grid-item-silver">-
+	</div>	
+	<div id = "slalombronze" class="grid-item-bronze">-
+	</div>
+	<div id = "fencing" class="grid-item-event">Fencing
+	</div>
+	<div id = "fencinggold" class="grid-item-gold">-
+	</div>	
+	<div id = "fencingsilver" class="grid-item-silver">-
+	</div>	
+	<div id = "fencingbronze" class="grid-item-bronze">-
+	</div>
+	<div id = "kumite" class="grid-item-sub-event">Kumite
+	</div>
+	<div id = "kumitegold" class="grid-item-gold">-
+	</div>	
+	<div id = "kumitesilver" class="grid-item-silver">-
+	</div>	
+	<div id = "kumitebronze" class="grid-item-bronze">-
+	</div>
+	<div id = "triathlon" class="grid-item-event">Triathlon
+	</div>
+	<div id = "triathlongold" class="grid-item-gold">-
+	</div>	
+	<div id = "triathlonsilver" class="grid-item-silver">-
+	</div>	
+	<div id = "triathlonbronze" class="grid-item-bronze">-
 	</div>
 
 </div>
