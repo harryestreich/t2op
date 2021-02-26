@@ -6,8 +6,8 @@
  	 margin: 0;
 	}    
 	.node circle {
-      stroke: #000000;
-      stroke-width: 1px;
+      stroke: #DAA520;
+      stroke-width: 2px;
     }
 	.button {
 	  background-color: #FFD700; 
@@ -163,17 +163,18 @@
 	</div>
 
 	<div class="grid-item-chart">	
-	<div id = "goldmedal" style = "font-weight: bold" class ="grid-gold">
+	<div id = "goldmedal" style = "font-weight: bold" class ="grid-gold">G
 	</div>	
-	<div id = "silvermedal" class ="grid-silver">
+	<div id = "silvermedal" class ="grid-silver">S
 	</div>	
-	<div id = "bronzemedal" class ="grid-bronze">
+	<div id = "bronzemedal" class ="grid-bronze">B
 	</div>
 
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script>
     medaltype = 0;
     reset = 0;
+    picked = "";
     var width = window.innerWidth*0.343, height = window.innerHeight*0.45, sizeDivisor = 0.3, nodePadding = 2.5;
     var tooltipHeight = window.innerHeight * 0.03;
   
@@ -191,6 +192,7 @@
 	    .style("display", "table-cell")
 	    .style("height", tooltipHeight)
 	    .style("vertical-align", "middle")
+        .html("Select a Country")
 
     var svg = d3.select(".grid-item-chart")
         .append("svg")
@@ -250,48 +252,48 @@
             node
                 .attr("cx", function(d){ return d.x; })
                 .attr("cy", function(d){ return d.y; })
-            if (medaltype == 0){
-                simulation.force("collide", d3.forceCollide().strength(0.6).radius(function(d){ return d.radiusgold + nodePadding; }).iterations(100))  
-            }
-            if (medaltype == 1){
-                simulation.force("collide", d3.forceCollide().strength(0.6).radius(function(d){ return d.radiussilver + nodePadding; }).iterations(100))
-            }
-            if (medaltype == 2){
-                simulation.force("collide", d3.forceCollide().strength(0.6).radius(function(d){ return d.radiusbronze + nodePadding; }).iterations(100))
-            }
-            if (medaltype == 3){
-                simulation.force("collide", d3.forceCollide().strength(0.6).radius(function(d){ return d.radiustotal + nodePadding; }).iterations(100))
-            }
-
             if(reset == 0){
+                if (medaltype == 0){
+                    simulation.force("collide", d3.forceCollide().strength(0.6).radius(function(d){ return d.radiusgold + nodePadding; }).iterations(100))  
+                }
+                if (medaltype == 1){
+                    simulation.force("collide", d3.forceCollide().strength(0.6).radius(function(d){ return d.radiussilver + nodePadding; }).iterations(100))
+                }
+                if (medaltype == 2){
+                    simulation.force("collide", d3.forceCollide().strength(0.6).radius(function(d){ return d.radiusbronze + nodePadding; }).iterations(100))
+                }
+                if (medaltype == 3){
+                    simulation.force("collide", d3.forceCollide().strength(0.6).radius(function(d){ return d.radiustotal + nodePadding; }).iterations(100))
+                }
     	        if (medaltype == 0){
                     if(reset == 0){
-    	        	  node.attr("fill", 'gold')
-            		  .attr("r", function(d) { return d.radiusgold; })
+            		  node.attr("r", function(d) { return d.radiusgold; })      
+                      d3.selectAll("circle").style("stroke", function(d){ return (d.country == picked) ? "cyan" : "goldenrod"})
                       reset = 1
                     }
     	    	}
     	        if (medaltype == 1){
                     if(reset == 0){
-    	        	  node.attr("fill", 'silver')
-            		  .attr("r", function(d) { return d.radiussilver; })
+            		  node.attr("r", function(d) { return d.radiussilver; })
+                      d3.selectAll("circle").style("stroke", function(d){ return (d.country == picked) ? "cyan" : "dimgray"})
                       reset = 1
                     }
     	    	}
     	        if (medaltype == 2){
                     if(reset == 0){
-    	        	  node.attr("fill", 'peru')
-            		  .attr("r", function(d) { return d.radiusbronze; })
+            		  node.attr("r", function(d) { return d.radiusbronze; })
+                      d3.selectAll("circle").style("stroke", function(d){ return (d.country == picked) ? "cyan" : "saddlebrown"})
                       reset = 1
                     }
     	    	}
     	        if (medaltype == 3){
                     if(reset == 0){
-        			  updateCircles()
             		  node.attr("r", function(d) { return d.radiustotal; })
+                      d3.selectAll("circle").style("stroke", function(d){ return (d.country == picked) ? "cyan" : "black"})
                       reset = 1
                     }
     	    	}
+
             }
 
           });
@@ -301,6 +303,7 @@
         .selectAll("circle")
         .data(graph)
         .enter().append("circle")
+        .attr("fill", function(d) { return "url(#" + d.countrycode + ")";})
         .attr("r", function(d){ return d.radiusgold; })
         .attr("cx", function(d){ return d.x; })
         .attr("cy", function(d){ return d.y; })
@@ -308,14 +311,11 @@
         .on("click", setCountry)
         .on("mouseleave", removeHighlight)
         .on("mousemove", mousemove)
-      	.call(d3.drag() // call specific function when circle is dragged
-            .on("start", dragstarted)
-            .on("start", setCountry)
-        	.on("drag", dragged)
-            .on("end", dragended));
-
-
-
+      	// .call(d3.drag() // call specific function when circle is dragged
+       //      .on("start", dragstarted)
+       //      .on("start", setCountry)
+       //  	.on("drag", dragged)
+       //      .on("end", dragended));
       text_labels()
     });
 
@@ -336,13 +336,30 @@
         	.style("stroke", "black");
     }
 
+    function findColour(){        
+        if (medaltype == 0){
+            return "goldenrod"
+        }
+        if (medaltype == 1){
+            return "dimgray"
+        }
+        if (medaltype == 2){
+            return "saddlebrown"
+        }
+        if (medaltype == 3){
+            return "black"
+        }
+    }
+
     function setCountry(d){
     	document.getElementById("country").innerHTML = d.country
-      	d3.select(this)
-        	.transition()
-        	.duration(100)
-        	.style("stroke-width", 5)
-        	.style("stroke", "black");
+        d3.selectAll("circle")
+            .style("stroke", findColour())
+            .style("stroke-width", "2px")
+        d3.select(this)
+            .style("stroke", "cyan")
+            .style("stroke-width", "5px")
+        picked = d.country
         if(d.aquaticsgold != 0.0){
         	document.getElementById("aquaticsgold").innerHTML = d.aquaticsgold
     	}else{
@@ -799,15 +816,30 @@
 
     function removeHighlight(d){
     	Tooltip
-      		.html("")
-    	d3.select(this)
-        	//.transition()
-        	//.duration(100)
-        	.style("stroke-width", 1)
-        	.style("stroke", "black")    
-        document.getElementById("goldmedal").innerHTML = ""
-        document.getElementById("silvermedal").innerHTML = ""
-        document.getElementById("bronzemedal").innerHTML = ""
+      		.html("Select a Country")
+        if(d3.select(this).style("stroke") != "cyan"){
+    	   d3.select(this)                
+                .style("stroke-width", 2)
+                if (medaltype == 0){
+                      d3.select(this).attr("r", function(d) { return d.radiusgold; })
+                      d3.select(this).style("stroke", "goldenrod")
+                }
+                if (medaltype == 1){
+                      d3.select(this).attr("r", function(d) { return d.radiussilver; })
+                      d3.select(this).style("stroke", "dimgray")
+                }
+                if (medaltype == 2){
+                      d3.select(this).attr("r", function(d) { return d.radiusbronze; })
+                      d3.select(this).style("stroke", "saddlebrown")
+                }
+                if (medaltype == 3){
+                      d3.select(this).attr("r", function(d) { return d.radiustotal; })
+                      d3.select(this).style("stroke", "black")
+                } 
+        }
+        document.getElementById("goldmedal").innerHTML = "G"
+        document.getElementById("silvermedal").innerHTML = "S"
+        document.getElementById("bronzemedal").innerHTML = "B"
     }
 
 	var mousemove = function(d) {
