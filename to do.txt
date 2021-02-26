@@ -2,3 +2,4 @@
 - add totals to tooltip
 - add total medals and gsb to selector
 - make tool tip opaque
+- border

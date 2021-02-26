@@ -818,24 +818,28 @@
     	Tooltip
       		.html("Select a Country")
         if(d3.select(this).style("stroke") != "cyan"){
-    	   d3.select(this)                
-                .style("stroke-width", 2)
+    	   d3.select(this)             
                 if (medaltype == 0){
                       d3.select(this).attr("r", function(d) { return d.radiusgold; })
-                      d3.select(this).style("stroke", "goldenrod")
+                      d3.selectAll("circle").style("stroke", function(d){ return (d.country == picked) ? "cyan" : "goldenrod"})
+                      d3.selectAll("circle").style("stroke-width", function(d){ return (d.country == picked) ? "5px" : "2px"})
                 }
                 if (medaltype == 1){
                       d3.select(this).attr("r", function(d) { return d.radiussilver; })
-                      d3.select(this).style("stroke", "dimgray")
+                      d3.selectAll("circle").style("stroke", function(d){ return (d.country == picked) ? "cyan" : "dimgray"})
+                      d3.selectAll("circle").style("stroke-width", function(d){ return (d.country == picked) ? "5px" : "2px"})
                 }
                 if (medaltype == 2){
                       d3.select(this).attr("r", function(d) { return d.radiusbronze; })
-                      d3.select(this).style("stroke", "saddlebrown")
+                      d3.selectAll("circle").style("stroke", function(d){ return (d.country == picked) ? "cyan" : "saddlebrown"})
+                      d3.selectAll("circle").style("stroke-width", function(d){ return (d.country == picked) ? "5px" : "2px"})
                 }
                 if (medaltype == 3){
                       d3.select(this).attr("r", function(d) { return d.radiustotal; })
-                      d3.select(this).style("stroke", "black")
+                      d3.selectAll("circle").style("stroke", function(d){ return (d.country == picked) ? "cyan" : "black"})
+                      d3.selectAll("circle").style("stroke-width", function(d){ return (d.country == picked) ? "5px" : "2px"})
                 } 
+
         }
         document.getElementById("goldmedal").innerHTML = "G"
         document.getElementById("silvermedal").innerHTML = "S"
