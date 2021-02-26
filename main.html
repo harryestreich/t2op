@@ -173,7 +173,7 @@
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script>
     medaltype = 0;
-    empty = 0	
+    reset = 0;
     var width = window.innerWidth*0.343, height = window.innerHeight*0.45, sizeDivisor = 0.3, nodePadding = 2.5;
     var tooltipHeight = window.innerHeight * 0.03;
   
@@ -215,6 +215,33 @@
       // sort the nodes so that the bigger ones are at the back
       graph = graph.sort(function(a,b){ return b.size - a.size; });
 
+      var defs = svg.append("defs");
+      defs.selectAll(".flag")
+      	.data(graph)
+      	.enter()
+        .append("pattern")
+        .attr("id", function(d) { return d.countrycode; })
+        .attr("class", "flag")
+        .attr("width", "100%")
+        .attr("height", "100%")
+        .attr("patternContentUnits", "objectBoundingBox")
+          .append("image")
+          .attr("width", 1)
+          .attr("height", 1)
+          // xMidYMid: center the image in the circle
+          // slice: scale the image to fill the circle
+          .attr("preserveAspectRatio", "none")
+          .attr("xlink:href", function(d) {
+            return "flags/" + d.countrycode + ".svg";
+          });
+
+      function updateCircles(d) {
+   	  node
+      	.attr("fill", function(d) {
+        return "url(#" + d.countrycode + ")";
+      });
+  }
+
       //update the simulation based on the data
       simulation
           .nodes(graph)
@@ -223,26 +250,49 @@
             node
                 .attr("cx", function(d){ return d.x; })
                 .attr("cy", function(d){ return d.y; })
-	        if (medaltype == 0){
-	        	node.attr("fill", 'gold')
-        		.attr("r", function(d) { return d.radiusgold; })
-          		simulation.force("collide", d3.forceCollide().strength(0.6).radius(function(d){ return d.radiusgold + nodePadding; }).iterations(100))	
-	    	}
-	        if (medaltype == 1){
-	        	node.attr("fill", 'silver')
-        		.attr("r", function(d) { return d.radiussilver; })
-         		simulation.force("collide", d3.forceCollide().strength(0.6).radius(function(d){ return d.radiussilver + nodePadding; }).iterations(100))
-	    	}
-	        if (medaltype == 2){
-	        	node.attr("fill", 'peru')
-        		.attr("r", function(d) { return d.radiusbronze; })
-          		simulation.force("collide", d3.forceCollide().strength(0.6).radius(function(d){ return d.radiusbronze + nodePadding; }).iterations(100))
-	    	}
-	        if (medaltype == 3){
-	        	node.attr("fill", 'blue')
-        		.attr("r", function(d) { return d.radiustotal; })
-          		simulation.force("collide", d3.forceCollide().strength(0.6).radius(function(d){ return d.radiustotal + nodePadding; }).iterations(100))
-	    	}
+            if (medaltype == 0){
+                simulation.force("collide", d3.forceCollide().strength(0.6).radius(function(d){ return d.radiusgold + nodePadding; }).iterations(100))  
+            }
+            if (medaltype == 1){
+                simulation.force("collide", d3.forceCollide().strength(0.6).radius(function(d){ return d.radiussilver + nodePadding; }).iterations(100))
+            }
+            if (medaltype == 2){
+                simulation.force("collide", d3.forceCollide().strength(0.6).radius(function(d){ return d.radiusbronze + nodePadding; }).iterations(100))
+            }
+            if (medaltype == 3){
+                simulation.force("collide", d3.forceCollide().strength(0.6).radius(function(d){ return d.radiustotal + nodePadding; }).iterations(100))
+            }
+
+            if(reset == 0){
+    	        if (medaltype == 0){
+                    if(reset == 0){
+    	        	  node.attr("fill", 'gold')
+            		  .attr("r", function(d) { return d.radiusgold; })
+                      reset = 1
+                    }
+    	    	}
+    	        if (medaltype == 1){
+                    if(reset == 0){
+    	        	  node.attr("fill", 'silver')
+            		  .attr("r", function(d) { return d.radiussilver; })
+                      reset = 1
+                    }
+    	    	}
+    	        if (medaltype == 2){
+                    if(reset == 0){
+    	        	  node.attr("fill", 'peru')
+            		  .attr("r", function(d) { return d.radiusbronze; })
+                      reset = 1
+                    }
+    	    	}
+    	        if (medaltype == 3){
+                    if(reset == 0){
+        			  updateCircles()
+            		  node.attr("r", function(d) { return d.radiustotal; })
+                      reset = 1
+                    }
+    	    	}
+            }
 
           });
 
@@ -253,7 +303,7 @@
         .enter().append("circle")
         .attr("r", function(d){ return d.radiusgold; })
         .attr("cx", function(d){ return d.x; })
-        .attr("cy", function(d){ return d.y; }) 
+        .attr("cy", function(d){ return d.y; })
         .on("mouseover", addHighlight)
         .on("click", setCountry)
         .on("mouseleave", removeHighlight)
@@ -263,6 +313,8 @@
             .on("start", setCountry)
         	.on("drag", dragged)
             .on("end", dragended));
+
+
 
       text_labels()
     });
@@ -278,8 +330,8 @@
 
     function addHighlight(d){
     	d3.select(this)
-        	.transition()
-        	.duration(100)
+        	//.transition()
+        	//.duration(100)
         	.style("stroke-width", 5)
         	.style("stroke", "black");
     }
@@ -749,8 +801,8 @@
     	Tooltip
       		.html("")
     	d3.select(this)
-        	.transition()
-        	.duration(100)
+        	//.transition()
+        	//.duration(100)
         	.style("stroke-width", 1)
         	.style("stroke", "black")    
         document.getElementById("goldmedal").innerHTML = ""
@@ -802,6 +854,7 @@
     }
     function updateGold(){
     	medaltype = 0;
+        reset = 0
     	simulation.alpha(0.8).restart()    
         document.getElementById("goldmedal").style.fontWeight = "bold";
         document.getElementById("silvermedal").style.fontWeight = "normal";
@@ -810,6 +863,7 @@
     }
     function updateSilver(){
     	medaltype = 1;
+        reset = 0
         simulation.alpha(0.8).restart()    
         document.getElementById("goldmedal").style.fontWeight = "normal";
         document.getElementById("silvermedal").style.fontWeight = "bold";
@@ -817,6 +871,7 @@
     }
     function updateBronze(){
     	medaltype = 2;
+        reset = 0
         simulation.alpha(0.8).restart()    
         document.getElementById("goldmedal").style.fontWeight = "normal";
         document.getElementById("silvermedal").style.fontWeight = "normal";
@@ -824,15 +879,12 @@
     }
     function updateTotal(){
     	medaltype = 3;
+        reset = 0
         simulation.alpha(0.8).restart()    
         document.getElementById("goldmedal").style.fontWeight = "normal";
         document.getElementById("silvermedal").style.fontWeight = "normal";
         document.getElementById("bronzemedal").style.fontWeight = "normal";
     }
-
-    function flagFill() {
-    	return if(medaltype == 4);
-  	}
     </script>
 </div>
     <div class = "grid-item-tally">
